@@ -40,7 +40,7 @@ const userController = {
             return res.status(400).json({ message: 'Credencials invàlides' });
         }
 
-        const esContrasenyaValida = await bcrypt.compare(password, usuari.contrasenya);
+        const esContrasenyaValida = await usuari.compararContrasenya(password, usuari.contrasenya);
 
         if (!esContrasenyaValida) {
             return res.status(400).json({ message: 'Credencials invàlides' });
@@ -109,7 +109,7 @@ const userController = {
                 email: usuari.email
             }
         });
-        
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -117,17 +117,31 @@ const userController = {
 
   changePassword: async (req, res) => {
     try {
+        const ID = req.user.userId;
+
+        const { contrasenyaAntiga, contrasenyaNova, confirmarContrasenyaNova } = req.body;
+
+        if (!contrasenyaAntiga || !contrasenyaNova || !confirmarContrasenyaNova) { 
+            return res.status(400).json({ message: 'Tots els camps són obligatoris' });
+        }
+        if (contrasenyaNova !== confirmarContrasenyaNova) {
+            return res.status(400).json({ message: 'La nova contrasenya i la confirmació no coincideixen' });
+        }
+        const usuari = await User.findById(ID);
+        if (!usuari) {
+            return res.status(404).json({ message: 'Usuari no trobat' });
+        }
+
+        const esContrasenyaValida = await usuari.compararContrasenya(contrasenyaAntiga, usuari.contrasenya);
       // Obtenir ID de req.user
-      // Extreure contrasenyaAntiga, contrasenyaNova, confirmarContrasenyaNova de req.body
-      // Validar que totes estan completes
-      // Validar que contrasenyaNova === confirmarContrasenyaNova
-      // Buscar usuari a BD
-      // Si no existeix → retornar 404
-      // Comparar contrasenya antiga amb bcrypt.compare()
-      // Si no coincideix → retornar 401
-      // Si coincideix → Actualitzar contrasenya
-      // Guardar a BD
-      // Retornar 200
+        if (!esContrasenyaValida) {
+            return res.status(401).json({ message: 'Contrasenya antiga incorrecta' });
+        }
+
+        usuari.contrasenya = contrasenyaNova;
+        await usuari.save();
+        res.status(200).json({ message: 'Contrasenya actualitzada correctament' });
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -135,11 +149,15 @@ const userController = {
 
   deleteUser: async (req, res) => {
     try {
-      // Obtenir ID de req.user
-      // Buscar usuari a BD
-      // Si no existeix → retornar 404
-      // Esborrar usuari amb findByIdAndDelete
-      // Retornar 200
+        const ID = req.user.userId;
+
+        const usuari = await User.findById(ID);
+        if (!usuari) {
+            return res.status(404).json({ message: 'Usuari no trobat' });
+        }
+        await User.findByIdAndDelete(ID);
+        res.status(200).json({ message: 'Usuari esborrat correctament' });
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -147,10 +165,12 @@ const userController = {
 
   getAllUsers: async (req, res) => {
     try {
-      // Validar que req.user.rol === 'ADMIN'
-      // Si no és admin → retornar 403
-      // Buscar tots els usuaris amb User.find()
-      // Retornar 200 amb array (sense contrasenyes)
+        if (req.user.rol !== 'ADMIN') {
+            return res.status(403).json({ message: 'Accés denegat' });
+        }
+        const usuaris = await User.find({}, '-contrasenya');
+        res.status(200).json(usuaris);
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -158,11 +178,19 @@ const userController = {
 
   getUserById: async (req, res) => {
     try {
-      // Validar que és ADMIN
-      // Extreure id de req.params
-      // Buscar usuari per ID
-      // Si no existeix → retornar 404
-      // Retornar 200 amb dades (sense contrasenya)
+
+        if (req.user.rol !== 'ADMIN') {
+            return res.status(403).json({ message: 'Accés denegat' });
+        }
+
+        const userId = req.params.id;
+
+        const usuari = await User.findById(userId, '-contrasenya');
+        if (!usuari) {
+            return res.status(404).json({ message: 'Usuari no trobat' });
+        }
+        res.status(200).json(usuari);
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
