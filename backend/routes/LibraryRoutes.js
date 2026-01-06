@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const LibraryController = require('../controllers/LibraryController');
+const libraryController = require('../controllers/LibraryController');
 const authMiddleware = require('../middleware/authMiddleware');
 const adminMiddleware = require('../middleware/adminMiddleware');
 
-router.post('/', authMiddleware, adminMiddleware, LibraryController.createLibrary);
-router.get('/', LibraryController.getAllLibraries);
-router.get('/:id', LibraryController.getLibraryById);
-router.put('/:id', authMiddleware, adminMiddleware, LibraryController.updateLibrary);
-router.delete('/:id', authMiddleware, adminMiddleware, LibraryController.deleteLibrary);
-router.get('/city/:ciutat', LibraryController.getLibrariesByCity);
-router.get('/search', LibraryController.searchLibraries);
+router.post('/', authMiddleware, adminMiddleware, libraryController.createLibrary);
+router.get('/city/:ciutat', libraryController.getLibrariesByCity);
+router.get('/search', libraryController.searchLibraries);
+router.get('/', libraryController.getAllLibraries);
+router.get('/:id', libraryController.getLibraryById);
+router.put('/:id', authMiddleware, adminMiddleware, libraryController.updateLibrary);
+router.delete('/:id', authMiddleware, adminMiddleware, libraryController.deleteLibrary);
+
 module.exports = router;

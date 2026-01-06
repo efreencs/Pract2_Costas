@@ -1,6 +1,10 @@
 // Importar dependències
 const express = require('express');
 const mongoose = require('mongoose');
+const userRoutes = require('./routes/UserRoutes');
+const bookRoutes = require('./routes/BookRoutes');
+const libraryRoutes = require('./routes/LibraryRoutes');
+const loanRoutes = require('./routes/LoanRoutes');
 require('dotenv').config();
 
 // Crear app
@@ -8,6 +12,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
 
 // Connexió a MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -21,6 +26,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.get('/', (req, res) => {
   res.json({ missatge: 'Benvingut a la API de la biblioteca' });
 });
+app.use('/api/users', userRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/libraries', libraryRoutes);
+app.use('/api/loans', loanRoutes);
+
+
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;
