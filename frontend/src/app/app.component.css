@@ -1,0 +1,13 @@
+/* CSS del component AppComponent */
+
+header h1 {
+  color: white;
+}
+
+header nav {
+  margin-top: 15px;
+}
+
+main {
+  min-height: 400px;
+}
