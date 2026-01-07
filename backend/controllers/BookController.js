@@ -32,7 +32,7 @@ const bookController = {
             quantitatTotal,
             quantitatDisponible: quantitatTotal
         });
-        await Book.save();
+        await nouLlibre.save();
         res.status(201).json(nouLlibre);
         
     } catch (error) {

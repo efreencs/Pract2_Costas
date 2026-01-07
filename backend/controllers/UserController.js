@@ -15,14 +15,14 @@ const userController = {
     const Usuari = new User({
         nom: username,
         contrasenya: password,
-        email: email
+        email: email,
     });
 
     await Usuari.save();
 
     res.status(201).json({ 
       missatge: 'Usuari creat correctament',
-      user: { id: Usuari._id, nom: Usuari.nom, email: Usuari.email }
+      user: { id: Usuari._id, nom: Usuari.nom, email: Usuari.email, rol: Usuari.rol }
     });
 
     } catch (error) {
@@ -118,7 +118,6 @@ const userController = {
   changePassword: async (req, res) => {
     try {
         const ID = req.user.userId;
-
         const { contrasenyaAntiga, contrasenyaNova, confirmarContrasenyaNova } = req.body;
 
         if (!contrasenyaAntiga || !contrasenyaNova || !confirmarContrasenyaNova) { 
