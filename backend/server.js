@@ -1,6 +1,7 @@
 // Importar dependències
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const userRoutes = require('./src/routes/UserRoutes');
 const bookRoutes = require('./src/routes/BookRoutes');
 const libraryRoutes = require('./src/routes/LibraryRoutes');
@@ -11,6 +12,7 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 
