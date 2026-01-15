@@ -1,10 +1,10 @@
 // Importar dependències
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/UserRoutes');
-const bookRoutes = require('./routes/BookRoutes');
-const libraryRoutes = require('./routes/LibraryRoutes');
-const loanRoutes = require('./routes/LoanRoutes');
+const userRoutes = require('./src/routes/UserRoutes');
+const bookRoutes = require('./src/routes/BookRoutes');
+const libraryRoutes = require('./src/routes/LibraryRoutes');
+const loanRoutes = require('./src/routes/LoanRoutes');
 require('dotenv').config();
 
 // Crear app
