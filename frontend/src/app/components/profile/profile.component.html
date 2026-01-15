@@ -1,3 +1,117 @@
 <div class="profile-container">
+  <div class="header">
+    <h1>El Meu Perfil</h1>
+    <button class="btn-back" (click)="goHome()">Tornar al Home</button>
+  </div>
 
+  <div *ngIf="loading" class="loading">
+    Carregant perfil...
+  </div>
+
+  <div *ngIf="!loading" class="profile-content">
+    <div class="profile-card">
+      <div class="avatar">
+        <div class="avatar-placeholder">{{ user.name | slice:0:1 }}</div>
+      </div>
+
+      <div class="user-info">
+        <div class="info-group">
+          <label>Nom Complet:</label>
+          <p *ngIf="!editMode" class="info-value">{{ user.name }}</p>
+          <input
+            *ngIf="editMode"
+            type="text"
+            [(ngModel)]="editedUser.name"
+            class="edit-input"
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Email:</label>
+          <p *ngIf="!editMode" class="info-value">{{ user.email }}</p>
+          <input
+            *ngIf="editMode"
+            type="email"
+            [(ngModel)]="editedUser.email"
+            class="edit-input"
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Telefon:</label>
+          <p *ngIf="!editMode" class="info-value">{{ user.phone || 'No indicat' }}</p>
+          <input
+            *ngIf="editMode"
+            type="text"
+            [(ngModel)]="editedUser.phone"
+            class="edit-input"
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Adreça:</label>
+          <p *ngIf="!editMode" class="info-value">{{ user.address || 'No indicada' }}</p>
+          <input
+            *ngIf="editMode"
+            type="text"
+            [(ngModel)]="editedUser.address"
+            class="edit-input"
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Data de Registre:</label>
+          <p class="info-value">{{ user.createdAt | date: 'dd/MM/yyyy' }}</p>
+        </div>
+
+        <div class="info-group">
+          <label>Valoració:</label>
+          <p class="info-value">{{ user.rating || '5.0' }} / 10</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button
+        *ngIf="!editMode"
+        class="btn btn-primary"
+        (click)="toggleEditMode()"
+      >
+        Editar Perfil
+      </button>
+
+      <div *ngIf="editMode" class="edit-actions">
+        <button
+          class="btn btn-success"
+          (click)="saveProfile()"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Guardant...' : 'Guardar Canvis' }}
+        </button>
+        <button
+          class="btn btn-secondary"
+          (click)="toggleEditMode()"
+          [disabled]="isSaving"
+        >
+          Cancelar
+        </button>
+      </div>
+
+      <button class="btn btn-warning" (click)="changePassword()">
+        Canviar Contrasenya
+      </button>
+
+      <button class="btn btn-danger" (click)="deleteAccount()">
+        Eliminar Compte
+      </button>
+    </div>
+
+    <div *ngIf="successMessage" class="success">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  </div>
 </div>

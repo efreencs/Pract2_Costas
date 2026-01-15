@@ -1,3 +1,75 @@
 <div class="books-container">
+  <div class="header">
+    <h1>Catàleg de Llibres</h1>
+    <button class="btn-back" (click)="goHome()">Tornar al Home</button>
+  </div>
 
+  <div class="search-section">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Buscar per títol o autor..."
+      class="search-input"
+    />
+    <button class="btn-search" (click)="filterBooks()">Buscar</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Carregant llibres...
+  </div>
+
+  <div *ngIf="!loading && filteredBooks.length === 0" class="empty-state">
+    <p>No s'han trobat llibres</p>
+  </div>
+
+  <div *ngIf="!loading && filteredBooks.length > 0" class="books-section">
+    <div class="books-grid">
+      <div *ngFor="let book of filteredBooks" class="book-card">
+        <div class="book-cover">
+          <div class="cover-placeholder">
+            Portada
+          </div>
+        </div>
+
+        <div class="book-info">
+          <h3 class="book-title">{{ book.title }}</h3>
+          <p class="book-author">{{ book.author }}</p>
+          <p class="book-description">{{ book.description }}</p>
+
+          <div class="book-details">
+            <div class="detail">
+              <span class="label">ISBN:</span>
+              <span class="value">{{ book.isbn }}</span>
+            </div>
+            <div class="detail">
+              <span class="label">Any:</span>
+              <span class="value">{{ book.publishYear }}</span>
+            </div>
+            <div class="detail">
+              <span class="label">Còpies Disponibles:</span>
+              <span class="value" [ngClass]="book.copiesAvailable === 0 ? 'no-available' : ''">
+                {{ book.copiesAvailable }}
+              </span>
+            </div>
+          </div>
+
+          <button
+            class="btn-loan"
+            (click)="borrowBook(book._id)"
+            [disabled]="book.copiesAvailable === 0 || isLoaning"
+          >
+            {{ isLoaning ? 'Solicitant...' : book.copiesAvailable === 0 ? 'No Disponible' : 'Solicitar Préstec' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="successMessage" class="success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
 </div>
