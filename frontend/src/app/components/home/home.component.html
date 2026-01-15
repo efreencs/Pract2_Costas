@@ -1,3 +1,39 @@
 <div class="home-container">
+  <div class="welcome-section">
+    <h1>Benvingut, {{ userName }}!</h1>
+    <p>Benvingut a la biblioteca digital</p>
+  </div>
 
+  <div class="stats-section">
+    <div class="stat-card">
+      <h3>Préstecs Actius</h3>
+      <p class="stat-number">{{ activeLoans }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Llibres</h3>
+      <p class="stat-number">{{ totalBooks }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Valoració</h3>
+      <p class="stat-number">{{ userRating }}</p>
+    </div>
+  </div>
+
+  <div class="actions-section">
+    <h2>Accions</h2>
+    <div class="button-group">
+      <button class="btn btn-primary" (click)="goToBooks()">
+        Veure tots els Llibres
+      </button>
+      <button class="btn btn-primary" (click)="goToLoans()">
+        Els Meus Préstecs
+      </button>
+      <button class="btn btn-primary" (click)="goToProfile()">
+        Veure el Meu Perfil
+      </button>
+      <button class="btn btn-danger" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
 </div>

@@ -1,3 +1,70 @@
 <div class="register-container">
+  <div class="register-box">
+    <h1>Registre - Biblioteca</h1>
 
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success">
+      {{ successMessage }}
+    </div>
+
+    <form (ngSubmit)="register()">
+      <div class="form-group">
+        <label>Nom Complet:</label>
+        <input
+          type="text"
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Joan Perez"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email:</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="email@example.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Contrasenya:</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Contrasenya"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Repetir Contrasenya:</label>
+        <input
+          type="password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          placeholder="Repetir contrasenya"
+          required
+        />
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Registrant...' : 'Registrar-se' }}
+      </button>
+    </form>
+
+    <p class="login-link">
+      Ja tens compte?
+      <a (click)="loginLink()" style="cursor: pointer; color: #3498db;">
+        Login aqui
+      </a>
+    </p>
+  </div>
 </div>
