@@ -1,0 +1,50 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">← Tornar</button>
+      <h1>👥 Gestió d'Usuaris</h1>
+      <div class="header-spacer"></div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="toast success">✓ {{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="toast error">✕ {{ errorMessage }}</div>
+
+  <div class="content">
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="🔍 Cercar per nom o email...">
+      <span class="count">{{ filteredUsers.length }} usuaris</span>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Carregant usuaris...</p>
+    </div>
+
+    <!-- Users Grid -->
+    <div *ngIf="!loading" class="users-grid">
+      <div *ngFor="let user of filteredUsers" class="user-card">
+        <div class="user-avatar">{{ user.nom?.charAt(0)?.toUpperCase() || '?' }}</div>
+        <div class="user-info">
+          <h3>{{ user.nom }}</h3>
+          <p class="email">{{ user.email }}</p>
+          <p class="details">
+            <span *ngIf="user.telefon">📱 {{ user.telefon }}</span>
+            <span *ngIf="!user.telefon">📱 No indicat</span>
+          </p>
+          <p class="date">📅 Registre: {{ user.createdAt | date: 'dd/MM/yyyy' }}</p>
+        </div>
+        <div class="user-role" [class]="getRoleBadgeClass(user.rol)">
+          {{ user.rol === 'ADMIN' ? '👑 Admin' : '👤 Usuari' }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && filteredUsers.length === 0" class="no-results">
+      No s'han trobat usuaris
+    </div>
+  </div>
+</div>

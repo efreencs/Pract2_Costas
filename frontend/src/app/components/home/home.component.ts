@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
   userName: string = '';
   activeLoans: number = 0;
   totalBooks: number = 0;
-  userRating: string = '5.0';
   loading: boolean = true;
 
   constructor(
@@ -31,18 +30,19 @@ export class HomeComponent implements OnInit {
     // Obtenir perfil de l'usuari
     this.userService.getProfile().subscribe(
       (user: any) => {
-        this.userName = user.name || 'Usuari';
-        this.userRating = user.rating || '5.0';
+        this.userName = user.nom || 'Usuari';
       },
       (error: any) => {
         console.log('Error carregant perfil', error);
       }
     );
 
-    // Obtenir els meus préstecs
-    this.loanService.getMyLoans().subscribe(
+    // Obtenir els meus préstecs actius
+    this.loanService.getMyLoansUser().subscribe(
       (loans: any) => {
-        this.activeLoans = loans.length || 0;
+        // Filtrar només préstecs actius
+        const activeLoans = (loans || []).filter((loan: any) => loan.estat === 'ACTIU');
+        this.activeLoans = activeLoans.length;
       },
       (error: any) => {
         console.log('Error carregant préstecs', error);

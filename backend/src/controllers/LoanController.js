@@ -1,7 +1,6 @@
 const Loan = require('../models/Loan');
 const Book = require('../models/Book');
 const User = require('../models/User');
-const Library = require('../models/Library');
 
 const loanController = {
 
@@ -9,20 +8,34 @@ const loanController = {
     try {
         const dataActual = new Date();
         const usuariId = req.user.userId;
-        const { llibreId, bibliotecaId, dataRetornaPrevista } = req.body;
-        if (!llibreId || !bibliotecaId || !dataRetornaPrevista) {
+        const { llibreId, dataRetornaPrevista } = req.body;
+        
+        console.log('Request body:', req.body);
+        console.log('llibreId:', llibreId);
+        console.log('dataRetornaPrevista:', dataRetornaPrevista);
+        
+        if (!llibreId || !dataRetornaPrevista) {
             return res.status(400).json({ message: 'Falten camps obligatoris' });
         }
+
+        // Comprovar màxim 5 préstecs actius
+        const prestecsActius = await Loan.countDocuments({ usuari: usuariId, estat: 'ACTIU' });
+        if (prestecsActius >= 5) {
+            return res.status(400).json({ message: 'Ja tens el màxim de 5 llibres en préstec. Retorna algun abans de demanar-ne més.' });
+        }
+
+        // Comprovar que l'usuari no té ja aquest llibre
+        const jaTeElLlibre = await Loan.findOne({ usuari: usuariId, llibre: llibreId, estat: 'ACTIU' });
+        if (jaTeElLlibre) {
+            return res.status(400).json({ message: 'Ja tens aquest llibre en préstec!' });
+        }
+
         const llibre = await Book.findById(llibreId);
         if (!llibre) {
             return res.status(404).json({ message: 'Llibre no trobat' });
         }
         if (llibre.quantitatDisponible <= 0) {
             return res.status(400).json({ message: 'No hi ha llibres disponibles' });
-        }
-        const biblioteca = await Library.findById(bibliotecaId);
-        if (!biblioteca) {
-            return res.status(404).json({ message: 'Biblioteca no trobada' });
         }
         if (new Date(dataRetornaPrevista) <= dataActual || new Date(dataRetornaPrevista) > new Date(dataActual.getTime() + 14*24*60*60*1000)) {
             return res.status(400).json({ message: 'La data de retorn prevista ha de ser futura i com a màxim el prèstec pot durar 2 setmanes' });
@@ -32,7 +45,6 @@ const loanController = {
         const nouPrestec = new Loan({
             usuari: usuariId,
             llibre: llibreId,
-            biblioteca: bibliotecaId,
             dataRetornaPrevista,
             estat: 'ACTIU'
         });
@@ -70,6 +82,17 @@ const loanController = {
     }
   },
 
+  getMyLoans: async (req, res) => {
+    try {
+        const usuariId = req.user.userId;
+        const prestecs = await Loan.find({ usuari: usuariId })
+            .populate('llibre');
+        res.status(200).json(prestecs);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   getLoansByUser: async (req, res) => {
     try {
         const usuariId = req.user.userId;
@@ -80,8 +103,7 @@ const loanController = {
             buscarPerUsuariId = req.params.userId;
         }
         const prestecs = await Loan.find({ usuari: buscarPerUsuariId })
-            .populate('llibre')
-            .populate('biblioteca');
+            .populate('llibre');
         res.status(200).json(prestecs);
 
     } catch (error) {
@@ -117,8 +139,7 @@ const loanController = {
         const loanId = req.params.id;
         const prestec = await Loan.findById(loanId)
             .populate('usuari')
-            .populate('llibre')
-            .populate('biblioteca');
+            .populate('llibre');
         if (!prestec) {
             return res.status(404).json({ message: 'Préstec no trobat' });
         }
@@ -176,8 +197,7 @@ const loanController = {
         }
         const prestecs = await Loan.find(filtres)
             .populate('usuari')
-            .populate('llibre')
-            .populate('biblioteca');
+            .populate('llibre');
         res.status(200).json(prestecs);
 
     } catch (error) {
@@ -196,8 +216,7 @@ const loanController = {
             dataRetornaPrevista: { $lt: new Date() }
         })
         .populate('usuari')
-        .populate('llibre')
-        .populate('biblioteca');
+        .populate('llibre');
         res.status(200).json(prestecsEndarrerits);
 
     } catch (error) {

@@ -12,11 +12,6 @@ const loanSchema = new mongoose.Schema({
     ref: 'Book',
     required: true
   },
-  biblioteca: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Library',
-    required: true
-  },
   dataPrestec: {
     type: Date,
     default: Date.now

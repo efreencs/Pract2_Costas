@@ -18,15 +18,24 @@ export class LoanService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  createLoan(bookId: string): Observable<any> {
-    return this.http.post(this.apiUrl, { bookId });
+  createLoan(llibreId: string, dataRetornaPrevista: string): Observable<any> {
+    return this.http.post(this.apiUrl, { llibreId, dataRetornaPrevista });
+  }
+
+  getMyLoansUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/me`);
   }
 
   returnLoan(loanId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${loanId}/return`, {});
+    return this.http.post(`${this.apiUrl}/${loanId}/return`, {});
   }
 
   renewLoan(loanId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${loanId}/renew`, {});
+  }
+
+  // Funció d'Admin - Obtenir tots els préstecs
+  getAllLoans(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 }

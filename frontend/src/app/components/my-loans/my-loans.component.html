@@ -14,40 +14,48 @@
 
   <div *ngIf="!loading && loans.length > 0" class="loans-section">
     <div class="loans-grid">
-      <div *ngFor="let loan of loans" class="loan-card">
+      <div *ngFor="let loan of loans" class="loan-card" [ngClass]="{'returned': loan.estat === 'RETORNAT'}">
         <div class="loan-header">
-          <h3>{{ loan.bookTitle }}</h3>
-          <span class="loan-id">ID: {{ loan._id }}</span>
+          <div class="book-emoji">📚</div>
+          <h3>{{ loan.llibre?.titol }}</h3>
         </div>
 
         <div class="loan-details">
           <div class="detail-row">
             <span class="label">Autor:</span>
-            <span class="value">{{ loan.bookAuthor }}</span>
+            <span class="value">{{ loan.llibre?.autor }}</span>
           </div>
           <div class="detail-row">
             <span class="label">Data de Préstec:</span>
-            <span class="value">{{ loan.loanDate | date: 'dd/MM/yyyy' }}</span>
+            <span class="value">{{ loan.dataPrestec | date: 'dd/MM/yyyy' }}</span>
           </div>
           <div class="detail-row">
             <span class="label">Data de Devolució:</span>
             <span class="value" [ngClass]="isOverdue(loan) ? 'overdue' : ''">
-              {{ loan.returnDate | date: 'dd/MM/yyyy' }}
+              {{ loan.dataRetornaPrevista | date: 'dd/MM/yyyy' }}
             </span>
           </div>
           <div class="detail-row">
             <span class="label">Estat:</span>
-            <span class="status" [ngClass]="loan.status">
-              {{ loan.status }}
+            <span class="status" [ngClass]="loan.estat">
+              {{ loan.estat }}
             </span>
           </div>
         </div>
 
-        <button class="btn-return" (click)="returnLoan(loan._id)" [disabled]="isReturning">
-          {{ isReturning ? 'Retornant...' : 'Retornar Llibre' }}
+        <button 
+          class="btn-return" 
+          (click)="returnLoan(loan._id)" 
+          [disabled]="returningLoanId === loan._id">
+          <span *ngIf="returningLoanId === loan._id">Retornant...</span>
+          <span *ngIf="returningLoanId !== loan._id">Retornar Llibre</span>
         </button>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="successMessage" class="success">
+    {{ successMessage }}
   </div>
 
   <div *ngIf="errorMessage" class="error">

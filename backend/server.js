@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoutes = require('./src/routes/UserRoutes');
 const bookRoutes = require('./src/routes/BookRoutes');
-const libraryRoutes = require('./src/routes/LibraryRoutes');
 const loanRoutes = require('./src/routes/LoanRoutes');
 require('dotenv').config();
 
@@ -30,7 +29,6 @@ app.get('/', (req, res) => {
 });
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
-app.use('/api/libraries', libraryRoutes);
 app.use('/api/loans', loanRoutes);
 
 

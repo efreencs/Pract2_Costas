@@ -45,7 +45,7 @@ export class RegisterComponent {
     this.successMessage = '';
 
     const newUser = {
-      name: this.name,
+      username: this.name,
       email: this.email,
       password: this.password
     };

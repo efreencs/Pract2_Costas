@@ -2,9 +2,20 @@
   <h1>{{ title }}</h1>
   <nav>
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/books">Llibres</a></li>
-      <li><a href="/login">Login</a></li>
+      <!-- Mostrar quan NO està autenticat -->
+      <ng-container *ngIf="!isLoggedIn()">
+        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li><a routerLink="/register" routerLinkActive="active">Registre</a></li>
+      </ng-container>
+      
+      <!-- Mostrar quan SÍ està autenticat -->
+      <ng-container *ngIf="isLoggedIn()">
+        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li><a routerLink="/books" routerLinkActive="active">Llibres</a></li>
+        <li><a routerLink="/my-loans" routerLinkActive="active">Els Meus Préstecs</a></li>
+        <li><a routerLink="/profile" routerLinkActive="active">Perfil</a></li>
+        <li><a (click)="logout()" class="logout-link">Logout</a></li>
+      </ng-container>
     </ul>
   </nav>
 </header>
@@ -14,5 +25,5 @@
 </main>
 
 <footer>
-  <p>&copy; 2026 Biblioteca. Tots els drets reservats.</p>
+  <p>&copy; 2026 Bookio.net. Tots els drets reservats.</p>
 </footer>

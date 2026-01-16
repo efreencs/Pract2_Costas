@@ -56,20 +56,25 @@
           <button
             class="btn-loan"
             (click)="borrowBook(book._id)"
-            [disabled]="book.quantitatDisponible === 0 || isLoaning"
+            [disabled]="book.quantitatDisponible === 0 || loaningBookId === book._id"
           >
-            {{ isLoaning ? 'Solicitant...' : book.quantitatDisponible === 0 ? 'No Disponible' : 'Solicitar Préstec' }}
+            <span *ngIf="loaningBookId === book._id">Solicitant...</span>
+            <span *ngIf="loaningBookId !== book._id && book.quantitatDisponible === 0">No Disponible</span>
+            <span *ngIf="loaningBookId !== book._id && book.quantitatDisponible > 0">Solicitar Préstec</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="successMessage" class="success">
-    {{ successMessage }}
+  <!-- Toast per missatges -->
+  <div *ngIf="successMessage" class="toast success-toast">
+    <span class="toast-icon">✅</span>
+    <span>{{ successMessage }}</span>
   </div>
 
-  <div *ngIf="errorMessage" class="error">
-    {{ errorMessage }}
+  <div *ngIf="errorMessage" class="toast error-toast">
+    <span class="toast-icon">❌</span>
+    <span>{{ errorMessage }}</span>
   </div>
 </div>

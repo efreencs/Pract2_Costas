@@ -6,6 +6,7 @@ const adminMiddleware = require('../middleware/adminMiddleware');
 
 router.post('/', authMiddleware, loanController.createLoan);
 router.post('/:id/return', authMiddleware, loanController.returnLoan);
+router.get('/user/me', authMiddleware, loanController.getMyLoans);
 router.get('/user/:userId', authMiddleware, loanController.getLoansByUser);
 router.get('/library/:libraryId', authMiddleware, adminMiddleware, loanController.getLoansByLibrary);
 router.get('/:id', authMiddleware, loanController.getLoanById);

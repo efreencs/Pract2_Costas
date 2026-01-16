@@ -137,19 +137,48 @@
   text-transform: capitalize;
 }
 
-.status.Actiu {
+.status.ACTIU {
   background: #d4edda;
   color: #155724;
 }
 
-.status.Retornat {
+.status.RETORNAT {
   background: #d1ecf1;
   color: #0c5460;
 }
 
-.status.Vencit {
+.status.ENDARRERIT {
   background: #f8d7da;
   color: #721c24;
+}
+
+.loan-card.returned {
+  opacity: 0.7;
+  background: #f9f9f9;
+}
+
+.returned-badge {
+  text-align: center;
+  padding: 10px;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.book-emoji {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.success {
+  background: #d4edda;
+  color: #155724;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #c3e6cb;
+  margin-top: 20px;
 }
 
 .btn-return {
@@ -161,19 +190,22 @@
   border-radius: 5px;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s;
+  transition: background-color 0.2s ease;
   margin-top: 10px;
+  min-height: 42px;
 }
 
 .btn-return:hover:not(:disabled) {
   background: #229954;
-  transform: translateY(-2px);
 }
 
 .btn-return:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
+}
+
+.btn-return:active:not(:disabled) {
+  background: #1e8449;
 }
 
 .error {

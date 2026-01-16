@@ -21,4 +21,17 @@ export class BookService {
   searchBooks(query: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/search?query=${query}`);
   }
+
+  // Admin functions
+  createBook(book: any): Observable<any> {
+    return this.http.post(this.apiUrl, book);
+  }
+
+  updateBook(id: string, book: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, book);
+  }
+
+  deleteBook(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }

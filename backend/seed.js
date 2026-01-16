@@ -5,6 +5,7 @@ require('dotenv').config();
 // Importar models
 const User = require('./src/models/User');
 const Book = require('./src/models/Book');
+const Loan = require('./src/models/Loan');
 
 // Connectar a MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -53,6 +54,7 @@ async function seedDatabase() {
     console.log('Eliminant dades existents...');
     await User.deleteMany({});
     await Book.deleteMany({});
+    await Loan.deleteMany({});
 
     // Crear usuari admin (el model ja encripta la contrasenya automàticament)
     console.log('Creant usuari admin...');

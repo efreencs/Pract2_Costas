@@ -1,117 +1,226 @@
 <div class="profile-container">
-  <div class="header">
-    <h1>El Meu Perfil</h1>
-    <button class="btn-back" (click)="goHome()">Tornar al Home</button>
+  <!-- Header amb gradient -->
+  <div class="profile-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goHome()">
+        <span class="back-icon">←</span> Tornar
+      </button>
+      <h1>El Meu Perfil</h1>
+      <div class="role-badge" [class.admin]="isAdmin()">
+        {{ isAdmin() ? '👑 Administrador' : '👤 Usuari' }}
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="loading" class="loading">
-    Carregant perfil...
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Carregant perfil...</p>
   </div>
 
   <div *ngIf="!loading" class="profile-content">
-    <div class="profile-card">
-      <div class="avatar">
-        <div class="avatar-placeholder">{{ user.name | slice:0:1 }}</div>
-      </div>
-
-      <div class="user-info">
-        <div class="info-group">
-          <label>Nom Complet:</label>
-          <p *ngIf="!editMode" class="info-value">{{ user.name }}</p>
-          <input
-            *ngIf="editMode"
-            type="text"
-            [(ngModel)]="editedUser.name"
-            class="edit-input"
-          />
-        </div>
-
-        <div class="info-group">
-          <label>Email:</label>
-          <p *ngIf="!editMode" class="info-value">{{ user.email }}</p>
-          <input
-            *ngIf="editMode"
-            type="email"
-            [(ngModel)]="editedUser.email"
-            class="edit-input"
-          />
-        </div>
-
-        <div class="info-group">
-          <label>Telefon:</label>
-          <p *ngIf="!editMode" class="info-value">{{ user.phone || 'No indicat' }}</p>
-          <input
-            *ngIf="editMode"
-            type="text"
-            [(ngModel)]="editedUser.phone"
-            class="edit-input"
-          />
-        </div>
-
-        <div class="info-group">
-          <label>Adreça:</label>
-          <p *ngIf="!editMode" class="info-value">{{ user.address || 'No indicada' }}</p>
-          <input
-            *ngIf="editMode"
-            type="text"
-            [(ngModel)]="editedUser.address"
-            class="edit-input"
-          />
-        </div>
-
-        <div class="info-group">
-          <label>Data de Registre:</label>
-          <p class="info-value">{{ user.createdAt | date: 'dd/MM/yyyy' }}</p>
-        </div>
-
-        <div class="info-group">
-          <label>Valoració:</label>
-          <p class="info-value">{{ user.rating || '5.0' }} / 10</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button
-        *ngIf="!editMode"
-        class="btn btn-primary"
-        (click)="toggleEditMode()"
-      >
-        Editar Perfil
-      </button>
-
-      <div *ngIf="editMode" class="edit-actions">
-        <button
-          class="btn btn-success"
-          (click)="saveProfile()"
-          [disabled]="isSaving"
-        >
-          {{ isSaving ? 'Guardant...' : 'Guardar Canvis' }}
-        </button>
-        <button
-          class="btn btn-secondary"
-          (click)="toggleEditMode()"
-          [disabled]="isSaving"
-        >
-          Cancelar
-        </button>
-      </div>
-
-      <button class="btn btn-warning" (click)="changePassword()">
-        Canviar Contrasenya
-      </button>
-
-      <button class="btn btn-danger" (click)="deleteAccount()">
-        Eliminar Compte
-      </button>
-    </div>
-
-    <div *ngIf="successMessage" class="success">
+    <!-- Missatges -->
+    <div *ngIf="successMessage" class="toast success">
+      <span class="toast-icon">✓</span>
       {{ successMessage }}
     </div>
-
-    <div *ngIf="errorMessage" class="error">
+    <div *ngIf="errorMessage" class="toast error">
+      <span class="toast-icon">✕</span>
       {{ errorMessage }}
+    </div>
+
+    <!-- Targeta Principal del Perfil -->
+    <div class="main-card">
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <div class="avatar-circle">{{ getInitial() }}</div>
+          <div class="avatar-status" [class.online]="true"></div>
+        </div>
+        <h2 class="user-name">{{ user.nom }}</h2>
+        <p class="user-email">{{ user.email }}</p>
+      </div>
+
+      <!-- Informació Personal -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <span class="section-icon">📋</span>
+          Informació Personal
+        </h3>
+        
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">👤</span>
+              Nom Complet
+            </div>
+            <div *ngIf="!editMode" class="info-value">{{ user.nom }}</div>
+            <input
+              *ngIf="editMode"
+              type="text"
+              [(ngModel)]="editedUser.nom"
+              class="edit-input"
+              [class.invalid]="!editedUser.nom?.trim()"
+              placeholder="El nom és obligatori"
+            />
+            <span *ngIf="editMode && !editedUser.nom?.trim()" class="field-error">Camp obligatori</span>
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">📧</span>
+              Correu Electrònic
+            </div>
+            <div *ngIf="!editMode" class="info-value">{{ user.email }}</div>
+            <input
+              *ngIf="editMode"
+              type="email"
+              [(ngModel)]="editedUser.email"
+              class="edit-input"
+              [class.invalid]="!editedUser.email?.trim()"
+              placeholder="L'email és obligatori"
+            />
+            <span *ngIf="editMode && !editedUser.email?.trim()" class="field-error">Camp obligatori</span>
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">📱</span>
+              Telèfon
+            </div>
+            <div *ngIf="!editMode" class="info-value">{{ user.telefon || 'No indicat' }}</div>
+            <input
+              *ngIf="editMode"
+              type="text"
+              [(ngModel)]="editedUser.telefon"
+              class="edit-input"
+              placeholder="Telèfon (opcional)"
+            />
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">🏠</span>
+              Adreça
+            </div>
+            <div *ngIf="!editMode" class="info-value">{{ user.adreca || 'No indicada' }}</div>
+            <input
+              *ngIf="editMode"
+              type="text"
+              [(ngModel)]="editedUser.adreca"
+              class="edit-input"
+              placeholder="Adreça (opcional)"
+            />
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">📅</span>
+              Membre des de
+            </div>
+            <div class="info-value">{{ user.createdAt | date: 'dd MMMM yyyy' }}</div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">
+              <span class="label-icon">🔐</span>
+              Tipus de Compte
+            </div>
+            <div class="info-value role-value" [class.admin]="isAdmin()">
+              {{ isAdmin() ? 'Administrador' : 'Usuari Estàndard' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accions del Perfil -->
+      <div class="actions-section">
+        <h3 class="section-title">
+          <span class="section-icon">⚙️</span>
+          Accions del Compte
+        </h3>
+        
+        <div class="actions-grid">
+          <button
+            *ngIf="!editMode"
+            class="action-btn primary"
+            (click)="toggleEditMode()"
+          >
+            <span class="btn-icon">✏️</span>
+            Editar Perfil
+          </button>
+
+          <div *ngIf="editMode" class="edit-actions">
+            <button
+              class="action-btn success"
+              (click)="saveProfile()"
+              [disabled]="isSaving || !canSave()"
+            >
+              <span class="btn-icon">💾</span>
+              {{ isSaving ? 'Guardant...' : 'Guardar' }}
+            </button>
+            <button
+              class="action-btn secondary"
+              (click)="toggleEditMode()"
+              [disabled]="isSaving"
+            >
+              <span class="btn-icon">↩️</span>
+              Cancel·lar
+            </button>
+          </div>
+
+          <button *ngIf="!editMode" class="action-btn warning" (click)="changePassword()">
+            <span class="btn-icon">🔑</span>
+            Canviar Contrasenya
+          </button>
+
+          <button *ngIf="!editMode && !isAdmin()" class="action-btn danger" (click)="deleteAccount()">
+            <span class="btn-icon">🗑️</span>
+            Eliminar Compte
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secció Admin -->
+    <div *ngIf="isAdmin()" class="admin-section">
+      <div class="admin-card">
+        <div class="admin-header">
+          <h3>
+            <span class="admin-icon">👑</span>
+            Panel d'Administrador
+          </h3>
+          <p>Accés exclusiu per gestionar Bookio.net</p>
+        </div>
+        
+        <div class="admin-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ totalUsers }}</span>
+            <span class="stat-label">Usuaris</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ totalBooks }}</span>
+            <span class="stat-label">Llibres</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ totalLoans }}</span>
+            <span class="stat-label">Préstecs Actius</span>
+          </div>
+        </div>
+
+        <div class="admin-actions">
+          <button class="admin-btn" (click)="goToManageBooks()">
+            <span class="admin-btn-icon">📚</span>
+            <span class="admin-btn-text">Gestionar Llibres</span>
+            <span class="admin-btn-desc">Afegir, editar o eliminar llibres</span>
+          </button>
+          
+          <button class="admin-btn" (click)="goToManageLoans()">
+            <span class="admin-btn-icon">📋</span>
+            <span class="admin-btn-text">Gestionar Préstecs</span>
+            <span class="admin-btn-desc">Veure tots els préstecs</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

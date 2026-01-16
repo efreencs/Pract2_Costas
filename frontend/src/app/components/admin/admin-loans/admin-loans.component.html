@@ -1,0 +1,81 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">← Tornar</button>
+      <h1>📋 Gestió de Préstecs</h1>
+      <div class="stats">
+        <span class="stat active">{{ activeCount }} actius</span>
+        <span class="stat returned">{{ returnedCount }} retornats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="successMessage" class="toast success">✓ {{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="toast error">✕ {{ errorMessage }}</div>
+
+  <div class="content">
+    <!-- Filters -->
+    <div class="filters-bar">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="🔍 Cercar per usuari o llibre...">
+      <select [(ngModel)]="filterStatus">
+        <option value="all">Tots els préstecs</option>
+        <option value="ACTIU">Només actius</option>
+        <option value="RETORNAT">Només retornats</option>
+      </select>
+      <span class="count">{{ filteredLoans.length }} préstecs</span>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Carregant préstecs...</p>
+    </div>
+
+    <!-- Loans Table -->
+    <div *ngIf="!loading" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Usuari</th>
+            <th>Llibre</th>
+            <th>Data Préstec</th>
+            <th>Data Retorn Prevista</th>
+            <th>Data Retorn Real</th>
+            <th>Estat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loan of filteredLoans" [class]="getStatusClass(loan)">
+            <td class="user-cell">
+              <div class="user-mini">
+                <span class="avatar">{{ loan.usuari?.nom?.charAt(0)?.toUpperCase() || '?' }}</span>
+                <div>
+                  <strong>{{ loan.usuari?.nom || 'Usuari desconegut' }}</strong>
+                  <small>{{ loan.usuari?.email }}</small>
+                </div>
+              </div>
+            </td>
+            <td class="book-cell">
+              <strong>{{ loan.llibre?.titol || 'Llibre desconegut' }}</strong>
+              <small>{{ loan.llibre?.autor }}</small>
+            </td>
+            <td>{{ loan.dataPrestec | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ loan.dataRetornaPrevista | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ loan.dataRetornaReal ? (loan.dataRetornaReal | date: 'dd/MM/yyyy') : '-' }}</td>
+            <td>
+              <span class="status-badge" [class]="getStatusClass(loan)">
+                <span *ngIf="isOverdue(loan)">⚠️ Endarrerit</span>
+                <span *ngIf="!isOverdue(loan) && loan.estat === 'ACTIU'">📖 Actiu</span>
+                <span *ngIf="loan.estat === 'RETORNAT'">✅ Retornat</span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="filteredLoans.length === 0" class="no-results">
+        No s'han trobat préstecs
+      </div>
+    </div>
+  </div>
+</div>

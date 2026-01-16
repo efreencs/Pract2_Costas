@@ -14,9 +14,12 @@ import { MyLoansComponent } from '@components/my-loans/my-loans.component';
 
 import { AuthService } from '@services/AuthService';
 import { BookService } from '@services/BookService';
-import { LibraryService } from '@services/LibraryService';
 import { LoanService } from '@services/LoanService';
 import { UserService } from '@services/UserService';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AdminBooksComponent } from './components/admin/admin-books/admin-books.component';
+import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
+import { AdminLoansComponent } from './components/admin/admin-loans/admin-loans.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { UserService } from '@services/UserService';
     HomeComponent,
     BooksComponent,
     ProfileComponent,
-    MyLoansComponent
+    MyLoansComponent,
+    AdminBooksComponent,
+    AdminUsersComponent,
+    AdminLoansComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +43,13 @@ import { UserService } from '@services/UserService';
   providers: [
     AuthService,
     BookService,
-    LibraryService,
     LoanService,
-    UserService
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
