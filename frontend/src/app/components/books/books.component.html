@@ -27,14 +27,14 @@
       <div *ngFor="let book of filteredBooks" class="book-card">
         <div class="book-cover">
           <div class="cover-placeholder">
-            Portada
+            📚
           </div>
         </div>
 
         <div class="book-info">
-          <h3 class="book-title">{{ book.title }}</h3>
-          <p class="book-author">{{ book.author }}</p>
-          <p class="book-description">{{ book.description }}</p>
+          <h3 class="book-title">{{ book.titol }}</h3>
+          <p class="book-author">{{ book.autor }}</p>
+          <p class="book-category">{{ book.categoria }}</p>
 
           <div class="book-details">
             <div class="detail">
@@ -43,12 +43,12 @@
             </div>
             <div class="detail">
               <span class="label">Any:</span>
-              <span class="value">{{ book.publishYear }}</span>
+              <span class="value">{{ book.any }}</span>
             </div>
             <div class="detail">
               <span class="label">Còpies Disponibles:</span>
-              <span class="value" [ngClass]="book.copiesAvailable === 0 ? 'no-available' : ''">
-                {{ book.copiesAvailable }}
+              <span class="value" [ngClass]="book.quantitatDisponible === 0 ? 'no-available' : ''">
+                {{ book.quantitatDisponible }}
               </span>
             </div>
           </div>
@@ -56,9 +56,9 @@
           <button
             class="btn-loan"
             (click)="borrowBook(book._id)"
-            [disabled]="book.copiesAvailable === 0 || isLoaning"
+            [disabled]="book.quantitatDisponible === 0 || isLoaning"
           >
-            {{ isLoaning ? 'Solicitant...' : book.copiesAvailable === 0 ? 'No Disponible' : 'Solicitar Préstec' }}
+            {{ isLoaning ? 'Solicitant...' : book.quantitatDisponible === 0 ? 'No Disponible' : 'Solicitar Préstec' }}
           </button>
         </div>
       </div>

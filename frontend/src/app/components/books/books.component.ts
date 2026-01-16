@@ -50,8 +50,8 @@ export class BooksComponent implements OnInit {
 
     const query = this.searchQuery.toLowerCase();
     this.filteredBooks = this.books.filter(book =>
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
+      book.titol.toLowerCase().includes(query) ||
+      book.autor.toLowerCase().includes(query)
     );
   }
 

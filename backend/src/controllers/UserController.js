@@ -40,7 +40,7 @@ const userController = {
             return res.status(400).json({ message: 'Credencials invàlides' });
         }
 
-        const esContrasenyaValida = await usuari.compararContrasenya(password, usuari.contrasenya);
+        const esContrasenyaValida = await usuari.compararContrasenya(password);
 
         if (!esContrasenyaValida) {
             return res.status(400).json({ message: 'Credencials invàlides' });
