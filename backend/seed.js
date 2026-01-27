@@ -47,7 +47,7 @@ const books = [
   { titol: 'Mobile App Development', autor: 'Jody Bracco', any: 2020, isbn: '978-1-491-96842-3', categoria: 'Tecnologia', quantitatTotal: 4, quantitatDisponible: 4 },
 ];
 
-// Funcio para seed
+
 async function seedDatabase() {
   try {
     // Eliminar usuaris i llibres existents
@@ -56,7 +56,7 @@ async function seedDatabase() {
     await Book.deleteMany({});
     await Loan.deleteMany({});
 
-    // Crear usuari admin (el model ja encripta la contrasenya automàticament)
+    // Crear usuari admin 
     console.log('Creant usuari admin...');
     const adminUser = new User({
       nom: 'Admin Biblioteca',
@@ -102,5 +102,4 @@ async function seedDatabase() {
   }
 }
 
-// Executar seed
 seedDatabase();

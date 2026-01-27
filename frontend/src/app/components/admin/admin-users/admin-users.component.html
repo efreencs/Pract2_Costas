@@ -7,24 +7,20 @@
     </div>
   </div>
 
-  <!-- Messages -->
   <div *ngIf="successMessage" class="toast success">✓ {{ successMessage }}</div>
   <div *ngIf="errorMessage" class="toast error">✕ {{ errorMessage }}</div>
 
   <div class="content">
-    <!-- Search -->
     <div class="search-bar">
       <input type="text" [(ngModel)]="searchTerm" placeholder="🔍 Cercar per nom o email...">
       <span class="count">{{ filteredUsers.length }} usuaris</span>
     </div>
 
-    <!-- Loading -->
     <div *ngIf="loading" class="loading">
       <div class="spinner"></div>
       <p>Carregant usuaris...</p>
     </div>
 
-    <!-- Users Grid -->
     <div *ngIf="!loading" class="users-grid">
       <div *ngFor="let user of filteredUsers" class="user-card">
         <div class="user-avatar">{{ user.nom?.charAt(0)?.toUpperCase() || '?' }}</div>

@@ -12,14 +12,12 @@
     </div>
   </div>
 
-  <!-- Loading -->
   <div *ngIf="loading" class="loading-container">
     <div class="spinner"></div>
     <p>Carregant perfil...</p>
   </div>
 
   <div *ngIf="!loading" class="profile-content">
-    <!-- Missatges -->
     <div *ngIf="successMessage" class="toast success">
       <span class="toast-icon">✓</span>
       {{ successMessage }}
@@ -29,7 +27,6 @@
       {{ errorMessage }}
     </div>
 
-    <!-- Targeta Principal del Perfil -->
     <div class="main-card">
       <div class="avatar-section">
         <div class="avatar-wrapper">
@@ -40,7 +37,6 @@
         <p class="user-email">{{ user.email }}</p>
       </div>
 
-      <!-- Informació Personal -->
       <div class="info-section">
         <h3 class="section-title">
           <span class="section-icon">📋</span>
@@ -132,7 +128,6 @@
         </div>
       </div>
 
-      <!-- Accions del Perfil -->
       <div class="actions-section">
         <h3 class="section-title">
           <span class="section-icon">⚙️</span>
@@ -181,7 +176,6 @@
       </div>
     </div>
 
-    <!-- Secció Admin -->
     <div *ngIf="isAdmin()" class="admin-section">
       <div class="admin-card">
         <div class="admin-header">

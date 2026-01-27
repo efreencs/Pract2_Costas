@@ -7,24 +7,20 @@
     </div>
   </div>
 
-  <!-- Messages -->
   <div *ngIf="successMessage" class="toast success">✓ {{ successMessage }}</div>
   <div *ngIf="errorMessage && !showModal" class="toast error">✕ {{ errorMessage }}</div>
 
   <div class="content">
-    <!-- Search -->
     <div class="search-bar">
       <input type="text" [(ngModel)]="searchTerm" placeholder="🔍 Cercar per títol, autor o ISBN...">
       <span class="count">{{ filteredBooks.length }} llibres</span>
     </div>
 
-    <!-- Loading -->
     <div *ngIf="loading" class="loading">
       <div class="spinner"></div>
       <p>Carregant llibres...</p>
     </div>
 
-    <!-- Table -->
     <div *ngIf="!loading" class="table-container">
       <table>
         <thead>
@@ -63,7 +59,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
   <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
     <div class="modal" (click)="$event.stopPropagation()">
       <div class="modal-header">

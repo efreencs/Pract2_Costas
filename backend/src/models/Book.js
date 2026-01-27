@@ -46,7 +46,6 @@ const bookSchema = new mongoose.Schema({
   }
 });
 
-//  VALIDACIÓ: quantitatDisponible no pot ser més gran que quantitatTotal
 bookSchema.pre('save', function(next) {
   if (this.quantitatDisponible > this.quantitatTotal) {
     next(new Error('La quantitat disponible no pot ser més gran que la total'));

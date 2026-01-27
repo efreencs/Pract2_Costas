@@ -33,15 +33,12 @@ const userSchema = new mongoose.Schema({
 
 //  MIDDLEWARE: Encriptar contrasenya abans de guardar
 userSchema.pre('save', async function(next) {
-  // Si la contrasenya ja era encriptada, no fer res
   if (!this.isModified('contrasenya')) {
     return next();
   }
 
   try {
-    // Generar "salt" (component aleatori)
     const salt = await bcrypt.genSalt(10);
-    // Encriptar contrasenya amb bcrypt
     this.contrasenya = await bcrypt.hash(this.contrasenya, salt);
     next();
   } catch (error) {
@@ -54,7 +51,7 @@ userSchema.methods.compararContrasenya = async function(contrasenyaIngresada) {
   return await bcrypt.compare(contrasenyaIngresada, this.contrasenya);
 };
 
-// Crear model
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

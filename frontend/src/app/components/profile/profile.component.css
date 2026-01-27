@@ -1,10 +1,8 @@
-/* Container Principal */
 .profile-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-/* Header amb Gradient */
 .profile-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 30px 20px;
@@ -67,7 +65,6 @@
   box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
 }
 
-/* Loading */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -90,7 +87,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* Content */
 .profile-content {
   max-width: 1000px;
   margin: 0 auto;
@@ -100,7 +96,6 @@
   gap: 25px;
 }
 
-/* Toast Messages */
 .toast {
   display: flex;
   align-items: center;
@@ -139,7 +134,6 @@
   }
 }
 
-/* Main Card */
 .main-card {
   background: white;
   border-radius: 20px;
@@ -147,7 +141,6 @@
   overflow: hidden;
 }
 
-/* Avatar Section */
 .avatar-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 40px 20px;
@@ -205,7 +198,6 @@
   font-size: 1rem;
 }
 
-/* Info Section */
 .info-section {
   padding: 30px;
 }
@@ -310,7 +302,6 @@
   font-weight: 500;
 }
 
-/* Actions Section */
 .actions-section {
   padding: 30px;
   background: #f8f9fa;
@@ -382,7 +373,6 @@
   color: white;
 }
 
-/* Admin Section */
 .admin-section {
   margin-top: 10px;
 }
@@ -494,7 +484,6 @@
   font-size: 0.8rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;

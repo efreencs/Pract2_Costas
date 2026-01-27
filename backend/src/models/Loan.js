@@ -31,7 +31,7 @@ const loanSchema = new mongoose.Schema({
   }
 });
 
-//  VALIDACIÓ: dataRetornaPrevista ha de ser futura
+
 loanSchema.pre('save', function(next) {
   if (this.dataRetornaPrevista <= this.dataPrestec) {
     next(new Error('La data de devolució ha de ser posterior a la de préstec'));
@@ -40,7 +40,6 @@ loanSchema.pre('save', function(next) {
   }
 });
 
-// Crear model
 const Loan = mongoose.model('Loan', loanSchema);
 
 module.exports = Loan;

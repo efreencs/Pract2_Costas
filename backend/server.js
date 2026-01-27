@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('Connectat a la base de dades MongoDB'))
 .catch(err => console.error('Error connectant a la base de dades MongoDB:', err));
 
-// Rutes (les afegeirem més tard)
+// Rutes 
 app.get('/', (req, res) => {
   res.json({ missatge: 'Benvingut a la API de la biblioteca' });
 });
