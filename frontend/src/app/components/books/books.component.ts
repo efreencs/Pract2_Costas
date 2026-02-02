@@ -57,7 +57,7 @@ export class BooksComponent implements OnInit {
   }
 
   borrowBook(bookId: string): void {
-    if (this.isLoaning) return; // Evitar doble click
+    if (this.isLoaning) return; 
 
     this.isLoaning = true;
     this.loaningBookId = bookId;

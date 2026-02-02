@@ -40,12 +40,12 @@ export class AdminLoansComponent implements OnInit {
   get filteredLoans(): any[] {
     let result = this.loans;
     
-    // Filter by status
+    
     if (this.filterStatus !== 'all') {
       result = result.filter(loan => loan.estat === this.filterStatus);
     }
     
-    // Filter by search term
+
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       result = result.filter(loan =>

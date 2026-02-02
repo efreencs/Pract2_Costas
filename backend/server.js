@@ -1,4 +1,3 @@
-// Importar dependències
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,7 +6,6 @@ const bookRoutes = require('./src/routes/BookRoutes');
 const loanRoutes = require('./src/routes/LoanRoutes');
 require('dotenv').config();
 
-// Crear app
 const app = express();
 
 // Middleware

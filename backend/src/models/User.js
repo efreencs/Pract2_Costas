@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
-    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Validació email
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ 
   },
   contrasenya: {
     type: String,
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-//  MIDDLEWARE: Encriptar contrasenya abans de guardar
+
 userSchema.pre('save', async function(next) {
   if (!this.isModified('contrasenya')) {
     return next();
@@ -46,7 +46,6 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-//  MÈTODE: Comparar contrasenyes encriptades
 userSchema.methods.compararContrasenya = async function(contrasenyaIngresada) {
   return await bcrypt.compare(contrasenyaIngresada, this.contrasenya);
 };
