@@ -74,6 +74,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
+  goToJoc(): void {
+    this.router.navigate(['/joc']);
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);

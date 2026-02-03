@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { PuntuacioService } from '../../services/puntuacio.service';
+import { Component, OnInit } from '@angular/core';
+import { PuntuacioService } from '../../services/PuntuacioService';
 
 interface Casella {
 tipus: 'premi' | 'castig' | 'res';
@@ -13,7 +13,7 @@ selector: 'app-joc',
 templateUrl: './joc.component.html'
 })
 
-export class JocComponent {
+export class JocComponent implements OnInit {
 nomUsuari = '';
 nivell = 5;
 tempsRestant = 5;
@@ -24,18 +24,28 @@ dataInici!: Date;
 
 caselles: Casella[] = [];
 top5: any[] = [];
-ultimaPuntuacio: any;
+ultimaPuntuacio: any = null;
+millorPuntuacioPersonal: any = null;
+puntuacioGuardada: any = null;
 
 
 constructor(private puntuacioService: PuntuacioService) {}
+
+ngOnInit() {
+this.carregarMillorPuntuacioPersonal();
+}
+
 iniciarJoc() {
-if (!this.nomUsuari || this.nivell < 2) return;
+if (!this.nomUsuari || this.nivell < 0) return;
 
 this.jocActiu = true;
 this.tempsRestant = 5;
 this.dataInici = new Date();
+this.ultimaPuntuacio = null;
+this.puntuacioGuardada = null;
 
 this.crearCaselles();
+this.carregarTop5();
 
 this.intervalId = setInterval(() => {
 this.tempsRestant--;
@@ -72,6 +82,23 @@ text: ''
 }));
 }
 
+obrirCasella(index: number) {
+if (!this.jocActiu || this.caselles[index].oberta) return;
+
+const casella = this.caselles[index];
+casella.oberta = true;
+
+if (casella.tipus === 'premi') {
+this.tempsRestant += casella.valor;
+casella.text = `+${casella.valor}s`;
+} else if (casella.tipus === 'castig') {
+this.tempsRestant -= 1;
+casella.text = '-1s';
+} else {
+casella.text = 'X';
+}
+}
+
 carregarTop5() {
 this.puntuacioService.top5(this.nivell)
 .subscribe((res: any) => {
@@ -97,7 +124,68 @@ dataFinal: dataFinal
 this.puntuacioService.registrar(puntuacio)
 .subscribe((res: any) => {
 this.ultimaPuntuacio = res;
+this.puntuacioGuardada = res;
+this.verificarMillorPuntuacio(res);
 this.carregarTop5();
 });
+}
+
+verificarMillorPuntuacio(novaPuntuacio: any) {
+const clau = `millorPuntuacio_nivell_${this.nivell}`;
+const millorActual = this.millorPuntuacioPersonal;
+
+if (!millorActual || novaPuntuacio.temps > millorActual.temps) {
+this.millorPuntuacioPersonal = novaPuntuacio;
+localStorage.setItem(clau, JSON.stringify(novaPuntuacio));
+}
+}
+
+carregarMillorPuntuacioPersonal() {
+if (this.nivell) {
+const clau = `millorPuntuacio_nivell_${this.nivell}`;
+const guardat = localStorage.getItem(clau);
+if (guardat) {
+this.millorPuntuacioPersonal = JSON.parse(guardat);
+} else {
+this.millorPuntuacioPersonal = null;
+}
+}
+}
+
+canviNivell() {
+this.carregarMillorPuntuacioPersonal();
+if (!this.jocActiu) {
+this.carregarTop5();
+}
+}
+
+actualitzarPuntuacio() {
+if (!this.puntuacioGuardada || !this.ultimaPuntuacio) return;
+
+this.puntuacioService.actualitzar(this.puntuacioGuardada._id, {
+nom: this.nomUsuari,
+nivell: this.nivell,
+dataInici: this.ultimaPuntuacio.dataInici,
+dataFinal: this.ultimaPuntuacio.dataFinal
+}).subscribe({
+next: (res: any) => {
+this.puntuacioGuardada = res;
+this.verificarMillorPuntuacio(res);
+this.carregarTop5();
+alert('Puntuació actualitzada!');
+},
+error: (err) => {
+console.error('Error actualitzant:', err);
+}
+});
+}
+
+potsActualitzar(): boolean {
+return !!(
+this.puntuacioGuardada &&
+this.ultimaPuntuacio &&
+this.millorPuntuacioPersonal &&
+this.ultimaPuntuacio.temps > this.millorPuntuacioPersonal.temps
+);
 }
 }

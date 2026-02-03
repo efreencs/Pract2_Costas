@@ -2,15 +2,16 @@
 
 <h1> Minijoc</h1>
 <section class="config">
-<label>
-Nom de usuari:
-<input type="text" [(ngModel)]="nomUsuari" />
-</label>
-Nivell (N x N):
-<input type="number" [(ngModel)]="nivell" min="2" />
-</label>
+  <label>
+    Nom de usuari:
+    <input type="text" [(ngModel)]="nomUsuari" />
+  </label>
+  <label>
+    Nivell (N x N):
+    <input type="number" [(ngModel)]="nivell" min="2" />
+  </label>
 
-<button (click)="iniciarJoc()">Iniciar joc</button>
+  <button (click)="iniciarJoc()">Iniciar joc</button>
 </section>
 
 <section class="temps" *ngIf="jocActiu">
@@ -39,3 +40,14 @@ class="casella"
 <h2> Partida finalitzada</h2>
 <p>Temps total jugat: <b>{{ ultimaPuntuacio.temps }} segons</b></p>
 </section>
+<section class="top5">
+<h2> Top 5 (nivell {{ nivell }})</h2>
+
+<ul>
+<li *ngFor="let p of top5">
+{{ p.nom }} — {{ p.temps }} s
+</li>
+</ul>
+</section>
+
+</div>

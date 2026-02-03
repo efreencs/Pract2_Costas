@@ -1,34 +1,30 @@
 const mongoose = require('mongoose');
 
-// Definir esquema de llibre
+// Definir esquema de puntuació
 const puntuacioSchema = new mongoose.Schema({
-    nom_usuari: {
+  nom: {
     type: String,
     required: true,
     trim: true
   },
-    puntuacio: {
-    type: Date,
-    default: Date.now,
-    required: true,
-    trim: true
-  },
-    comptador: {
+  temps: {
     type: Number,
-    required: true,
-    Default:5
+    required: true
   },
   nivell: {
     type: Number,
     required: true,
-    min: 0,
-    max: 10
+    min: 2
   },
-  dataIniciJoc: {
+  dataInici: {
     type: Date,
-    default: Date.now
+    required: true
   },
-  dataFinalJoc: {
+  dataFinal: {
+    type: Date,
+    required: true
+  },
+  data: {
     type: Date,
     default: Date.now
   }

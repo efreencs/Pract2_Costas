@@ -11,6 +11,7 @@ import { MyLoansComponent } from '@components/my-loans/my-loans.component';
 import { AdminBooksComponent } from '@components/admin/admin-books/admin-books.component';
 import { AdminUsersComponent } from '@components/admin/admin-users/admin-users.component';
 import { AdminLoansComponent } from '@components/admin/admin-loans/admin-loans.component';
+import { JocComponent } from '../joc/components/joc.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'admin/books', component: AdminBooksComponent },
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/loans', component: AdminLoansComponent },
+  { path: 'joc', component: JocComponent },
   { path: '**', redirectTo: '/home' }
 ];
 

@@ -16,10 +16,12 @@ import { AuthService } from '@services/AuthService';
 import { BookService } from '@services/BookService';
 import { LoanService } from '@services/LoanService';
 import { UserService } from '@services/UserService';
+import { PuntuacioService } from '@services/PuntuacioService';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AdminBooksComponent } from './components/admin/admin-books/admin-books.component';
 import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
 import { AdminLoansComponent } from './components/admin/admin-loans/admin-loans.component';
+import { JocComponent } from '../joc/components/joc.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { AdminLoansComponent } from './components/admin/admin-loans/admin-loans.
     MyLoansComponent,
     AdminBooksComponent,
     AdminUsersComponent,
-    AdminLoansComponent
+    AdminLoansComponent,
+    JocComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { AdminLoansComponent } from './components/admin/admin-loans/admin-loans.
     BookService,
     LoanService,
     UserService,
+    PuntuacioService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
