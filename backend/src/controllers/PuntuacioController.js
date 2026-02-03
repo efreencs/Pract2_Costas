@@ -41,8 +41,7 @@ const PuntuacioController = {
         (new Date(dataFinal) - new Date(dataInici)) / 1000
       );
 
-      const puntuacioActualitzada = await Puntuacio.findByIdAndUpdate(
-        id,
+      const puntuacioActualitzada = await Puntuacio.findByIdAndUpdate(id,
         {
           nom,
           temps,

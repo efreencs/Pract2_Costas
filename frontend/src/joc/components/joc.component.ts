@@ -70,7 +70,6 @@ tipusArray.push(...Array(premis).fill('premi'));
 tipusArray.push(...Array(castigs).fill('castig'));
 tipusArray.push(...Array(total - premis - castigs).fill('res'));
 
-// Barrejar
 tipusArray = tipusArray.sort(() => Math.random() - 0.5);
 
 this.caselles = tipusArray.map(tipus => ({
@@ -126,6 +125,7 @@ nivell: this.nivell,
 dataInici: this.dataInici,
 dataFinal: dataFinal
 };
+
 
 this.puntuacioService.registrar(puntuacio).subscribe({
 next: (res: any) => {
