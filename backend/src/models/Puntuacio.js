@@ -7,6 +7,11 @@ const PuntuacioSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+    puntuacio: {
+    type: Date,
+    required: true,
+    trim: true
+  },
     comptador: {
     type: Date,
     required: true,

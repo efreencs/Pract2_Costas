@@ -45,25 +45,23 @@ const PuntuacioController = {
   actualitzarPuntuacio: async (req, res) => {
     try {
         const puntuacioId = req.params.id;
-        const { comptador } = req.body;
 
         if (!comptador) {
             return res.status(400).json({ message: 'El comptador és obligatori.' });
         }
-        const puntuacio = await Bug.findById(bugId);
-        if (!bug) {
-            return res.status(404).json({ message: 'Bug no trobat' });
+        const puntuacio = await Puntuacio.findById(puntuacioId);
+        if (!puntuacio) {
+            return res.status(404).json({ message: 'Puntuacio no trobat' });
         }
-        bug.status = status;
-        await bug.save();
-        res.status(200).json(bug);
+        puntuacio.puntuacio = Date.now - puntuacio.dataJoc;
+        await puntuacio.save();
+        res.status(200).json(puntuacio);
 
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
 
-  
 
   getPuntuacions: async (req, res) => {
     try {
@@ -78,6 +76,21 @@ const PuntuacioController = {
         res.status(500).json({ error: error.message });
     }
     },
+
+    getpuntuacioById: async (req, res) => {
+        try {
+            const puntuacioId = req.params.id;
+    
+            const puntuacio = await puntuacio.findById(puntuacioId);
+            if (!puntuacio) {
+                return res.status(404).json({ message: 'Puntuació no trobada' });
+            }
+            res.status(200).json(puntuacio);
+    
+        } catch (error) {
+          res.status(500).json({ error: error.message });
+        }
+      },
 
 };
 

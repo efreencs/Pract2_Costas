@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRoutes = require('./src/routes/UserRoutes');
 const bookRoutes = require('./src/routes/BookRoutes');
 const loanRoutes = require('./src/routes/LoanRoutes');
+const puntuacioRoutes = require('./src/routes/PuntuacioRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/loans', loanRoutes);
+app.use('/api/puntutacions', puntuacioRoutes);
 
 
 
