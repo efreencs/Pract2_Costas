@@ -9,6 +9,7 @@ const puntuacioSchema = new mongoose.Schema({
   },
     puntuacio: {
     type: Date,
+    default: Date.now,
     required: true,
     trim: true
   },
