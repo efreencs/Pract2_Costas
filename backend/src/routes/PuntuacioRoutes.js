@@ -2,12 +2,8 @@ const express = require('express');
 const router = express.Router();
 const puntuacioController = require('../controllers/PuntuacioController');
 
-router.post('/', puntuacioController.createPuntuacio);
-router.get('/filter', puntuacioController.getPuntuacions);
-router.post('/:id/comptador', puntuacioController.actualitzarComptador);
-router.get('/:id', puntuacioController.getpuntuacioById);
-router.get('/:nivell', puntuacioController.getTop5);
-router.put('/:id', puntuacioController.actualitzarPuntuacio);
-
+router.post('/', puntuacioController.create);
+router.get('/top5/:nivell', puntuacioController.getTop5);
+router.put('/:id', puntuacioController.update);
 
 module.exports = router;

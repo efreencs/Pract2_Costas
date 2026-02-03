@@ -1,0 +1,232 @@
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.config {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.config label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #495057;
+}
+
+.config input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 2px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.config input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.config button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.config button:hover:not(:disabled) {
+  background: #218838;
+}
+
+.config button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.millor-personal {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 5px;
+}
+
+.millor-personal h3 {
+  margin: 0 0 10px 0;
+  color: #856404;
+  font-size: 1.1em;
+}
+
+.millor-personal p {
+  margin: 0;
+  color: #856404;
+}
+
+.temps {
+  text-align: center;
+  background: #007bff;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.temps h2 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.casella {
+  aspect-ratio: 1;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 3px solid #495057;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.casella:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.casella:disabled {
+  cursor: not-allowed;
+}
+
+.casella.oberta {
+  border-color: #dee2e6;
+  background: #f8f9fa;
+}
+
+.casella.premi {
+  background: linear-gradient(145deg, #d4edda, #c3e6cb);
+  border-color: #28a745;
+  color: #155724;
+}
+
+.casella.castig {
+  background: linear-gradient(145deg, #f8d7da, #f5c6cb);
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.resultats {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.resultats h2 {
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.resultats p {
+  font-size: 1.2em;
+  color: #495057;
+  margin: 10px 0;
+}
+
+.resultats button {
+  padding: 12px 25px;
+  margin: 10px 5px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.resultats button:first-of-type {
+  background: #ffc107;
+  color: #212529;
+}
+
+.resultats button:first-of-type:hover {
+  background: #e0a800;
+}
+
+.resultats button:last-of-type {
+  background: #007bff;
+  color: white;
+}
+
+.resultats button:last-of-type:hover {
+  background: #0056b3;
+}
+
+.top5 {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.top5 h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.top5 ol {
+  list-style-position: inside;
+  padding: 0;
+}
+
+.top5 li {
+  background: white;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  border-left: 4px solid #007bff;
+  font-size: 1.1em;
+}
+
+.top5 li:first-child {
+  border-left-color: #ffc107;
+  background: #fff3cd;
+}
+
+.top5 .data {
+  float: right;
+  color: #6c757d;
+  font-size: 0.9em;
+}

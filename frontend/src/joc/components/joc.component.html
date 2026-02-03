@@ -1,53 +1,60 @@
 <div class="container">
+  <h1>Minijoc - Guanya Temps</h1>
+  
+  <section class="config" *ngIf="!jocActiu">
+    <label>
+      Nom d'usuari:
+      <input type="text" [(ngModel)]="nomUsuari" placeholder="Introdueix el teu nom" />
+    </label>
+    <label>
+      Nivell (N x N):
+      <input type="number" [(ngModel)]="nivell" min="2" max="15" (change)="canviNivell()" />
+    </label>
 
-<h1> Minijoc</h1>
-<section class="config">
-  <label>
-    Nom de usuari:
-    <input type="text" [(ngModel)]="nomUsuari" />
-  </label>
-  <label>
-    Nivell (N x N):
-    <input type="number" [(ngModel)]="nivell" min="2" />
-  </label>
+    <button (click)="iniciarJoc()" [disabled]="!nomUsuari || nivell < 2">Iniciar Joc</button>
 
-  <button (click)="iniciarJoc()">Iniciar joc</button>
-</section>
+    <div class="millor-personal" *ngIf="millorPuntuacioPersonal">
+      <h3>La teva millor puntuacio (Nivell {{ nivell }})</h3>
+      <p><strong>{{ millorPuntuacioPersonal.nom }}</strong>: {{ millorPuntuacioPersonal.temps }} segons</p>
+    </div>
+  </section>
 
-<section class="temps" *ngIf="jocActiu">
-<h2>Temps restant: {{ tempsRestant }} s</h2>
-</section>
+  <section class="temps" *ngIf="jocActiu">
+    <h2>Temps restant: {{ tempsRestant }} s</h2>
+  </section>
 
-<section class="grid"
-*ngIf="jocActiu"
-[style.gridTemplateColumns]="'repeat(' + nivell + ', 1fr)'">
+  <section class="grid" *ngIf="jocActiu" [style.gridTemplateColumns]="'repeat(' + nivell + ', 1fr)'">
+    <button
+      class="casella"
+      *ngFor="let casella of caselles; let i = index"
+      [disabled]="casella.oberta"
+      [class.oberta]="casella.oberta"
+      [class.premi]="casella.oberta && casella.tipus === 'premi'"
+      [class.castig]="casella.oberta && casella.tipus === 'castig'"
+      (click)="obrirCasella(i)">
+      <span *ngIf="casella.oberta">{{ casella.text }}</span>
+      <span *ngIf="!casella.oberta">?</span>
+    </button>
+  </section>
 
-<button
-class="casella"
-*ngFor="let casella of caselles; let i = index"
-[disabled]="casella.oberta"
-(click)="obrirCasella(i)">
+  <section class="resultats" *ngIf="!jocActiu && ultimaPuntuacio">
+    <h2>Partida Finalitzada</h2>
+    <p>Temps total jugat: <b>{{ ultimaPuntuacio.temps }} segons</b></p>
+    <p>Nivell: <b>{{ ultimaPuntuacio.nivell }}x{{ ultimaPuntuacio.nivell }}</b></p>
 
-<span *ngIf="casella.oberta">
-{{ casella.text }}
-</span>
-<span *ngIf="!casella.oberta">
-</span>
+    <button *ngIf="potsActualitzar()" (click)="actualitzarPuntuacio()">
+      Actualitzar la meva millor puntuacio
+    </button>
+    <button (click)="iniciarJoc()">Jugar de nou</button>
+  </section>
 
-</button>
-
-<section *ngIf="!jocActiu && ultimaPuntuacio">
-<h2> Partida finalitzada</h2>
-<p>Temps total jugat: <b>{{ ultimaPuntuacio.temps }} segons</b></p>
-</section>
-<section class="top5">
-<h2> Top 5 (nivell {{ nivell }})</h2>
-
-<ul>
-<li *ngFor="let p of top5">
-{{ p.nom }} — {{ p.temps }} s
-</li>
-</ul>
-</section>
-
+  <section class="top5" *ngIf="top5.length > 0">
+    <h2>Top 5 - Nivell {{ nivell }}</h2>
+    <ol>
+      <li *ngFor="let p of top5">
+        <strong>{{ p.nom }}</strong>: {{ p.temps }} segons
+        <span class="data">({{ p.data | date:'dd/MM/yyyy' }})</span>
+      </li>
+    </ol>
+  </section>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PuntuacioService } from '../../services/PuntuacioService';
+import { PuntuacioService } from '../../app/services/PuntuacioService';
 
 interface Casella {
 tipus: 'premi' | 'castig' | 'res';
@@ -10,7 +10,8 @@ text: string;
 
 @Component({
 selector: 'app-joc',
-templateUrl: './joc.component.html'
+templateUrl: './joc.component.html',
+styleUrls: ['./joc.component.css']
 })
 
 export class JocComponent implements OnInit {
@@ -174,7 +175,7 @@ this.verificarMillorPuntuacio(res);
 this.carregarTop5();
 alert('Puntuació actualitzada!');
 },
-error: (err) => {
+error: (err: any) => {
 console.error('Error actualitzant:', err);
 }
 });
