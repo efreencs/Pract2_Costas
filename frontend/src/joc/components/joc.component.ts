@@ -101,9 +101,14 @@ casella.text = 'X';
 }
 
 carregarTop5() {
-this.puntuacioService.top5(this.nivell)
-.subscribe((res: any) => {
+this.puntuacioService.top5(this.nivell).subscribe({
+next: (res: any) => {
 this.top5 = res;
+console.log('Top 5 carregat:', res);
+},
+error: (err: any) => {
+console.error('Error carregant top 5:', err);
+}
 });
 }
 
@@ -122,12 +127,17 @@ dataInici: this.dataInici,
 dataFinal: dataFinal
 };
 
-this.puntuacioService.registrar(puntuacio)
-.subscribe((res: any) => {
+this.puntuacioService.registrar(puntuacio).subscribe({
+next: (res: any) => {
 this.ultimaPuntuacio = res;
 this.puntuacioGuardada = res;
 this.verificarMillorPuntuacio(res);
 this.carregarTop5();
+console.log('Puntuació guardada:', res);
+},
+error: (err: any) => {
+console.error('Error guardant puntuació:', err);
+}
 });
 }
 

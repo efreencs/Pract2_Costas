@@ -19,6 +19,10 @@ export class AppComponent {
     return this.authService.isAuthenticated();
   }
 
+  isJocRoute(): boolean {
+    return this.router.url === '/joc';
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
