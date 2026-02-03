@@ -6,14 +6,17 @@ const PuntuacioController = {
     try {
         const dataActual = new Date();
         const { usuariId, comptador, nivell } = req.body;
-        
+        const puntuacio = Math.floor(
+        (new Date(dataFinal) - new Date(dataInici)) / 1000
+        );
+
         if (!usuariId || !nivell) {
             return res.status(400).json({ message: 'Falten camps obligatoris' });
-        }        
+        }
 
         const novaPuntuacio = new Puntuacio({
             nom_usuari: usuariId,
-            comptador: comptador,
+            puntuacio: puntuacio,
             nivell: nivell,
             dataJoc: dataActual
         });
@@ -61,6 +64,19 @@ const PuntuacioController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  getTop5: async (req, res) => {
+    try {
+        const { nivell } = req.params;
+
+        const top5 = await Puntuacio.find({ nivell })
+        .sort({ puntuacio: -1 })
+        .limit(5);
+        res.status(200).json(top5);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+    },
 
 
   getPuntuacions: async (req, res) => {

@@ -24,7 +24,11 @@ const puntuacioSchema = new mongoose.Schema({
     min: 0,
     max: 10
   },
-  dataJoc: {
+  dataIniciJoc: {
+    type: Date,
+    default: Date.now
+  },
+  dataFinalJoc: {
     type: Date,
     default: Date.now
   }

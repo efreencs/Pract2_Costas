@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const puntuacioController = require('../controllers/PuntuacioController');
-const authMiddleware = require('../middleware/authMiddleware');
 
-router.post('/', authMiddleware, puntuacioController.createPuntuacio);
+router.post('/', puntuacioController.createPuntuacio);
 router.get('/filter', puntuacioController.getPuntuacions);
-router.post('/comptador', puntuacioController.actualitzarComptador);
+router.post('/:id/comptador', puntuacioController.actualitzarComptador);
 router.get('/:id', puntuacioController.getpuntuacioById);
-router.put('/:id', authMiddleware, puntuacioController.actualitzarPuntuacio);
+router.get('/:nivell', puntuacioController.getTop5);
+router.put('/:id', puntuacioController.actualitzarPuntuacio);
 
 
 module.exports = router;
