@@ -1,0 +1,18 @@
+<div class="container">
+
+<h1> Minijoc</h1>
+<section class="config">
+<label>
+Nom de usuari:
+<input type="text" [(ngModel)]="nomUsuari" />
+</label>
+Nivell (N x N):
+<input type="number" [(ngModel)]="nivell" min="2" />
+</label>
+
+<button (click)="iniciarJoc()">Iniciar joc</button>
+</section>
+
+<section class="temps" *ngIf="jocActiu">
+<h2>Temps restant: {{ tempsRestant }} s</h2>
+</section>
