@@ -27,170 +27,58 @@ const PuntuacioController = {
 
   actualitzarComptador: async (req, res) => {
     try {
-        const loanId = req.params.id;
-
-        const prestec = await Loan.findById(loanId);
-        if (!prestec) {
-            return res.status(404).json({ message: 'Préstec no trobat' });
+        const puntuacioId = req.params.id;
+        const { nouComptador } = req.body;
+        const puntuacio = await Puntuacio.findById(puntuacioId);
+        if (!puntuacio) {
+            return res.status(404).json({ message: 'Puntuacio no trobat' });
         }
-        if (prestec.estat === 'RETORNAT') {
-            return res.status(400).json({ message: 'El préstec ja estava retornat' });
-        }
-        prestec.dataRetornaReal = new Date();
-        prestec.estat = 'RETORNAT';
-        const llibre = await Book.findById(prestec.llibre);
-        llibre.quantitatDisponible += 1;
-        await prestec.save();
-        await llibre.save();
-        res.status(200).json({ message: 'Préstec retornat correctament' });
+        puntuacio.comptador = nouComptador;
+        await puntuacio.save();
+        res.status(200).json({ message: 'Comptador actualitzat' });
 
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
 
-  getMyLoans: async (req, res) => {
+  actualitzarPuntuacio: async (req, res) => {
     try {
-        const usuariId = req.user.userId;
-        const prestecs = await Loan.find({ usuari: usuariId })
-            .populate('llibre');
-        res.status(200).json(prestecs);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
+        const puntuacioId = req.params.id;
+        const { comptador } = req.body;
 
-  getLoansByUser: async (req, res) => {
-    try {
-        const usuariId = req.user.userId;
-        const userRole = req.user.rol;
-        let buscarPerUsuariId = usuariId;
-
-        if (userRole === 'ADMIN' && req.params.userId) {
-            buscarPerUsuariId = req.params.userId;
+        if (!comptador) {
+            return res.status(400).json({ message: 'El comptador és obligatori.' });
         }
-        const prestecs = await Loan.find({ usuari: buscarPerUsuariId })
-            .populate('llibre');
-        res.status(200).json(prestecs);
+        const puntuacio = await Bug.findById(bugId);
+        if (!bug) {
+            return res.status(404).json({ message: 'Bug no trobat' });
+        }
+        bug.status = status;
+        await bug.save();
+        res.status(200).json(bug);
 
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
 
-  getLoansByLibrary: async (req, res) => {
+  
+
+  getPuntuacions: async (req, res) => {
     try {
-        const bibliotecaId = req.params.libraryId;
-        const userRole = req.user.rol;
-        if (userRole !== 'ADMIN') {
-            return res.status(403).json({ message: 'Accés denegat. Només administradors.' });
-        }
-
-        let filtros = { biblioteca: bibliotecaId };
-        if (req.query.estat) {
-            filtros.estat = req.query.estat;
-        }
-    
-        const prestecs = await Loan.find(filtros)
-            .populate('usuari')
-            .populate('llibre');
-        res.status(200).json(prestecs);
-
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
-  getLoanById: async (req, res) => {
-    try {
-        const loanId = req.params.id;
-        const prestec = await Loan.findById(loanId)
-            .populate('usuari')
-            .populate('llibre');
-        if (!prestec) {
-            return res.status(404).json({ message: 'Préstec no trobat' });
-        }
-        res.status(200).json(prestec);
-
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
-  updateLoanStatus: async (req, res) => {
-    try {
-        const userRole = req.user.rol;
-        if (userRole !== 'ADMIN') {
-            return res.status(403).json({ message: 'Accés denegat. Només administradors.' });
-        }
-        const loanId = req.params.id;
-        const { nouEstat } = req.body;
-        const estatsValids = ['ACTIU', 'RETORNAT', 'ENDARRERIT'];
-        if (!estatsValids.includes(nouEstat)) {
-            return res.status(400).json({ message: 'Estat no vàlid' });
-        }
-        const prestec = await Loan.findById(loanId);
-        if (!prestec) {
-            return res.status(404).json({ message: 'Préstec no trobat' });
-        }
-        if (nouEstat === 'RETORNAT' && prestec.estat !== 'RETORNAT') {
-            prestec.dataRetornaReal = new Date();
-            prestec.estat = 'RETORNAT';
-            const llibre = await Book.findById(prestec.llibre);
-            llibre.quantitatDisponible += 1;
-            await llibre.save();
-        }
-        else if (nouEstat === 'ENDARRERIT') {
-            prestec.estat = 'ENDARRERIT';
-        }
-        await prestec.save();
-        res.status(200).json({ message: 'Estat del préstec actualitzat correctament' });
-
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
-  getAllLoans: async (req, res) => {
-    try {
-        const userRole = req.user.rol;
-        if (userRole !== 'ADMIN') {
-            return res.status(403).json({ message: 'Accés denegat. Només administradors.' });
-        }
-
         let filtres = {};
-        if (req.query.estat) {
-            filtres.estat = req.query.estat;
+
+        if (req.query.nivell) {
+        filtres.nivell = parseInt(req.query.nivell);
         }
-        const prestecs = await Loan.find(filtres)
-            .populate('usuari')
-            .populate('llibre');
-        res.status(200).json(prestecs);
-
+        const Puntuacions = await Puntuacio.find(filtres);
+        res.status(200).json(Puntuacions);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  },
-
-  getOverdueLoans: async (req, res) => {
-    try {
-        const userRole = req.user.rol;
-        if (userRole !== 'ADMIN') {
-            return res.status(403).json({ message: 'Accés denegat. Només administradors.' });
-        }
-        const prestecsEndarrerits = await Loan.find({
-            estat: 'ACTIU',
-            dataRetornaPrevista: { $lt: new Date() }
-        })
-        .populate('usuari')
-        .populate('llibre');
-        res.status(200).json(prestecsEndarrerits);
-
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
+    },
 
 };
 
-module.exports = loanController;
+module.exports = PuntuacioController;
