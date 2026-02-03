@@ -5,9 +5,9 @@ const PuntuacioController = {
   createPuntuacio: async (req, res) => {
     try {
         const dataActual = new Date();
-        const { usuari_id, comptador, nivell } = req.body;
+        const { usuariId, comptador, nivell } = req.body;
         
-        if (!nom_usuari || !nivell) {
+        if (!usuariId || !nivell) {
             return res.status(400).json({ message: 'Falten camps obligatoris' });
         }        
 
@@ -18,7 +18,7 @@ const PuntuacioController = {
             dataJoc: dataActual
         });
         await novaPuntuacio.save();
-        res.status(201).json(nouPrestec);
+        res.status(201).json(novaPuntuacio);
 
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Definir esquema de llibre
-const PuntuacioSchema = new mongoose.Schema({
+const puntuacioSchema = new mongoose.Schema({
     nom_usuari: {
     type: String,
     required: true,
@@ -13,9 +13,9 @@ const PuntuacioSchema = new mongoose.Schema({
     trim: true
   },
     comptador: {
-    type: Date,
+    type: Number,
     required: true,
-    trim: true
+    Default:5
   },
   nivell: {
     type: Number,

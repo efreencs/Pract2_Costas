@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/loans', loanRoutes);
-app.use('/api/puntutacions', puntuacioRoutes);
+app.use('/api/puntuacions', puntuacioRoutes);
 
 
 
