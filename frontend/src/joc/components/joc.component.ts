@@ -21,6 +21,9 @@ jocActiu = false;
 intervalId: any;
 
 dataInici!: Date;
+
+caselles: Casella[] = [];
+top5: any[] = [];
 ultimaPuntuacio: any;
 
 
@@ -73,6 +76,28 @@ carregarTop5() {
 this.puntuacioService.top5(this.nivell)
 .subscribe((res: any) => {
 this.top5 = res;
+});
+}
+
+acabarJoc() {
+if (!this.jocActiu) return;
+
+this.jocActiu = false;
+clearInterval(this.intervalId);
+
+const dataFinal = new Date();
+
+const puntuacio = {
+nom: this.nomUsuari,
+nivell: this.nivell,
+dataInici: this.dataInici,
+dataFinal: dataFinal
+};
+
+this.puntuacioService.registrar(puntuacio)
+.subscribe((res: any) => {
+this.ultimaPuntuacio = res;
+this.carregarTop5();
 });
 }
 }

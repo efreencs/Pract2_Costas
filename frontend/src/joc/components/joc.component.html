@@ -16,3 +16,26 @@ Nivell (N x N):
 <section class="temps" *ngIf="jocActiu">
 <h2>Temps restant: {{ tempsRestant }} s</h2>
 </section>
+
+<section class="grid"
+*ngIf="jocActiu"
+[style.gridTemplateColumns]="'repeat(' + nivell + ', 1fr)'">
+
+<button
+class="casella"
+*ngFor="let casella of caselles; let i = index"
+[disabled]="casella.oberta"
+(click)="obrirCasella(i)">
+
+<span *ngIf="casella.oberta">
+{{ casella.text }}
+</span>
+<span *ngIf="!casella.oberta">
+</span>
+
+</button>
+
+<section *ngIf="!jocActiu && ultimaPuntuacio">
+<h2> Partida finalitzada</h2>
+<p>Temps total jugat: <b>{{ ultimaPuntuacio.temps }} segons</b></p>
+</section>
